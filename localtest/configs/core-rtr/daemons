@@ -1,0 +1,23 @@
+# FRR daemons file for core-rtr.
+# We only need zebra (interface/IP config) and staticd (the `ip route`
+# statements in frr.conf). staticd MUST be enabled or `ip route` commands
+# are silently rejected and the lab has no routing.
+zebra=yes
+bgpd=no
+ospfd=no
+ospf6d=no
+ripd=no
+ripngd=no
+isisd=no
+pimd=no
+ldpd=no
+nhrpd=no
+eigrpd=no
+babeld=no
+sharpd=no
+pbrd=no
+bfdd=no
+fabricd=no
+vrrpd=no
+pathd=no
+staticd=yes

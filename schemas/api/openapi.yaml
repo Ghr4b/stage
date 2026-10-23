@@ -1,0 +1,242 @@
+openapi: "3.1.0"
+info:
+  title: Tijeri — VM+SIEM Platform API
+  description: >
+    API for the Tijeri open-source vulnerability management and SIEM correlation platform.
+  version: "0.1.0"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development server
+
+paths: {}
+
+components:
+  schemas:
+    Asset:
+      type: object
+      required:
+        - asset_id
+        - canonical_name
+        - criticality_tier
+        - exposure
+        - state
+      properties:
+        asset_id:
+          type: string
+          format: uuid
+        canonical_name:
+          type: string
+        criticality_tier:
+          type: string
+          enum: [mission_critical, high_value, standard, low_value]
+        exposure:
+          type: string
+          enum: [public, internal, restricted]
+        state:
+          type: string
+          enum: [active, stale, archived]
+        first_seen:
+          type: string
+          format: date-time
+        last_seen:
+          type: string
+          format: date-time
+
+    Finding:
+      type: object
+      required:
+        - finding_id
+        - asset_id
+        - source_tool
+        - vulnerability_id
+        - component
+        - component_version
+        - cvss
+        - nvd_enrichment_status
+        - epss
+        - kev_listed
+        - ssvc
+        - vex_status
+        - first_seen
+        - last_seen
+        - status
+        - dedup_hash
+      properties:
+        finding_id:
+          type: string
+          format: uuid
+        asset_id:
+          type: string
+          format: uuid
+        source_tool:
+          type: string
+        vulnerability_id:
+          type: string
+        component:
+          type: string
+        component_version:
+          type: string
+        cvss:
+          oneOf:
+            - type: "null"
+            - $ref: "#/components/schemas/CVSS"
+        nvd_enrichment_status:
+          type: string
+          enum: [full, lowest_priority, not_scheduled]
+        epss:
+          $ref: "#/components/schemas/EPSS"
+        kev_listed:
+          type: boolean
+        ssvc:
+          type:
+            - string
+            - "null"
+          enum: [track, track_star, attend, act, null]
+        vex_status:
+          type:
+            - string
+            - "null"
+          enum: [not_affected, affected, fixed, under_investigation, null]
+        vex_justification:
+          type:
+            - string
+            - "null"
+        first_seen:
+          type: string
+          format: date-time
+        last_seen:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [open, resolved, reopened, accepted_risk, suppressed_vex]
+        dedup_hash:
+          type: string
+
+    Vulnerability:
+      type: object
+      required:
+        - vulnerability_id
+        - description
+        - kev_listed
+      properties:
+        vulnerability_id:
+          type: string
+        description:
+          type: string
+        published_date:
+          type: string
+          format: date-time
+        kev_listed:
+          type: boolean
+
+    SecretFinding:
+      type: object
+      required:
+        - finding_id
+        - asset_id
+        - pattern_id
+        - file_path
+        - is_verified
+      properties:
+        finding_id:
+          type: string
+        asset_id:
+          type: string
+        pattern_id:
+          type: string
+        file_path:
+          type: string
+        line_number:
+          type: integer
+        is_verified:
+          type: boolean
+
+    ImageDigest:
+      type: object
+      required:
+        - digest
+        - repository
+      properties:
+        digest:
+          type: string
+        registry:
+          type: string
+        repository:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+
+    Attestation:
+      type: object
+      required:
+        - subject
+        - predicate_type
+        - issuer
+        - signature
+      properties:
+        subject:
+          type: string
+        predicate_type:
+          type: string
+        issuer:
+          type: string
+        signature:
+          type: string
+
+    SoftwareInventoryItem:
+      type: object
+      required:
+        - asset_id
+        - component
+        - version
+        - source_channel
+      properties:
+        asset_id:
+          type: string
+        component:
+          type: string
+        version:
+          type: string
+        source_channel:
+          type: string
+        last_seen:
+          type: string
+          format: date-time
+
+    CVSS:
+      type: object
+      required:
+        - score
+        - version
+        - vector
+        - source
+      properties:
+        score:
+          type: number
+        version:
+          type: string
+        vector:
+          type: string
+        source:
+          type:
+            - string
+            - "null"
+          enum: [NVD, CNA, ADP, null]
+
+    EPSS:
+      type: object
+      required:
+        - score
+        - percentile
+      properties:
+        score:
+          type: number
+        percentile:
+          type: number

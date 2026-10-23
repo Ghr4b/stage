@@ -1,0 +1,253 @@
+name: company-tls-lab
+
+mgmt:
+  network: clab
+  ipv4-subnet: 172.30.20.0/24
+  ipv6-subnet: 3fff:172:30:20::/64
+
+topology:
+  nodes:
+    core-rtr:
+      kind: linux
+      image: frrouting/frr:latest
+      cap-add: [NET_ADMIN]
+      binds:
+        - configs/core-rtr/daemons:/etc/frr/daemons
+        - configs/core-rtr/frr.conf:/etc/frr/frr.conf
+      exec:
+        - sysctl -w net.ipv4.ip_forward=1
+        - ip route del default
+
+    dmz-rtr:
+      kind: linux
+      image: frrouting/frr:latest
+      cap-add: [NET_ADMIN]
+      binds:
+        - configs/dmz-rtr/daemons:/etc/frr/daemons
+        - configs/dmz-rtr/frr.conf:/etc/frr/frr.conf
+      exec:
+        - sysctl -w net.ipv4.ip_forward=1
+        - ip route del default
+
+    corp-rtr:
+      kind: linux
+      image: frrouting/frr:latest
+      cap-add: [NET_ADMIN]
+      binds:
+        - configs/corp-rtr/daemons:/etc/frr/daemons
+        - configs/corp-rtr/frr.conf:/etc/frr/frr.conf
+      exec:
+        - sysctl -w net.ipv4.ip_forward=1
+        - ip route del default
+
+    sw-dmz: {kind: bridge}
+    sw-finance: {kind: bridge}
+    sw-engineering: {kind: bridge}
+
+    dmz-web-modern:
+      kind: linux
+      image: nginx:alpine
+      cap-add: [NET_ADMIN]
+      binds:
+        - configs/dmz-web-modern/nginx.conf:/etc/nginx/nginx.conf
+        - configs/certs/modern:/etc/nginx/certs
+      exec:
+        - ip addr add 10.20.0.11/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.20.0.1
+
+    dmz-web-legacy:
+      kind: linux
+      image: tls-lab/dmz-web-legacy:latest
+      cap-add: [NET_ADMIN]
+      exec:
+        - ip addr add 10.20.0.12/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.20.0.1
+
+    dmz-web-badcert:
+      kind: linux
+      image: nginx:alpine
+      cap-add: [NET_ADMIN]
+      binds:
+        - configs/dmz-web-badcert/nginx.conf:/etc/nginx/nginx.conf
+        - configs/certs/badcert:/etc/nginx/certs
+      exec:
+        - ip addr add 10.20.0.13/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.20.0.1
+
+    dmz-web-heartbleed:
+      kind: linux
+      image: vulnerables/cve-2014-0160:latest
+      cap-add: [NET_ADMIN]
+      exec:
+        - ip addr add 10.20.0.14/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.20.0.1
+
+    vuln-struts2:
+      kind: linux
+      image: vulhub/struts2:2.3.30
+      cap-add: [NET_ADMIN]
+      exec:
+        - ip addr add 10.20.0.31/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.20.0.1
+
+    vuln-weblogic:
+      kind: linux
+      image: vulhub/weblogic:10.3.6.0-2017
+      cap-add: [NET_ADMIN]
+      exec:
+        - ip addr add 10.20.0.32/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.20.0.1
+
+    vuln-thinkphp:
+      kind: linux
+      image: tls-lab/vuln-thinkphp:latest
+      cap-add: [NET_ADMIN]
+      exec:
+        - ip addr add 10.20.0.33/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.20.0.1
+
+    dmz-ldap:
+      kind: linux
+      image: osixia/openldap:1.5.0
+      cap-add: [NET_ADMIN]
+      env:
+        LDAP_ORGANISATION: ACME Corp
+        LDAP_DOMAIN: acme.internal
+        LDAP_ADMIN_PASSWORD: admin
+      exec:
+        - ip addr add 10.20.0.21/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.20.0.1
+
+    fin-app:
+      kind: linux
+      image: nginx:alpine
+      cap-add: [NET_ADMIN]
+      binds:
+        - configs/fin-app/nginx.conf:/etc/nginx/nginx.conf
+        - configs/certs/modern:/etc/nginx/certs
+      exec:
+        - ip addr add 10.30.10.11/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.30.10.1
+
+    fin-db:
+      kind: linux
+      image: alpine:latest
+      cap-add: [NET_ADMIN]
+      cmd: tail -f /dev/null
+      exec:
+        - ip addr add 10.30.10.12/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.30.10.1
+        - sh -c "apk add --no-cache iptables && iptables -A INPUT -i lo -j ACCEPT && iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT && iptables -P INPUT DROP"
+
+    vuln-spring:
+      kind: linux
+      image: tls-lab/vuln-spring:latest
+      cap-add: [NET_ADMIN]
+      exec:
+        - ip addr add 10.30.10.21/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.30.10.1
+
+    vuln-redis:
+      kind: linux
+      image: tls-lab/vuln-redis:latest
+      cap-add: [NET_ADMIN]
+      exec:
+        - ip addr add 10.30.10.22/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.30.10.1
+
+    vuln-jenkins:
+      kind: linux
+      image: vulhub/jenkins:2.46.1
+      cap-add: [NET_ADMIN]
+      exec:
+        - ip addr add 10.30.10.23/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.30.10.1
+
+    eng-git:
+      kind: linux
+      image: nginx:alpine
+      cap-add: [NET_ADMIN]
+      binds:
+        - configs/eng-git/nginx.conf:/etc/nginx/nginx.conf
+      exec:
+        - ip addr add 10.30.20.11/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.30.20.1
+
+    eng-fileserver:
+      kind: linux
+      image: alpine:latest
+      cap-add: [NET_ADMIN]
+      cmd: tail -f /dev/null
+      exec:
+        - ip addr add 10.30.20.12/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.30.20.1
+        - sh -c "apk add --no-cache openssh iptables && ssh-keygen -A && /usr/sbin/sshd && iptables -A INPUT -p tcp --dport 22 -j ACCEPT && iptables -A INPUT -i lo -j ACCEPT && iptables -P INPUT DROP && iptables -A INPUT -p tcp -j REJECT --reject-with tcp-reset"
+
+    vuln-phpmyadmin:
+      kind: linux
+      image: tls-lab/vuln-phpmyadmin:latest
+      cap-add: [NET_ADMIN]
+      exec:
+        - ip addr add 10.30.20.31/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.30.20.1
+
+    vuln-elasticsearch:
+      kind: linux
+      image: vulhub/elasticsearch:1.4.2
+      cap-add: [NET_ADMIN]
+      exec:
+        - ip addr add 10.30.20.32/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.30.20.1
+
+    scanner:
+      kind: linux
+      image: tls-lab/scanner:latest
+      cap-add: [NET_ADMIN, NET_RAW]
+      binds:
+        - ../ssl-tls:/scanner
+      exec:
+        - ip addr add 10.30.20.20/24 dev eth1
+        - ip route del default
+        - ip route add default via 10.30.20.1
+
+  links:
+    - endpoints: ["core-rtr:eth1", "dmz-rtr:eth1"]
+    - endpoints: ["core-rtr:eth2", "corp-rtr:eth1"]
+    - endpoints: ["dmz-rtr:eth2", "sw-dmz:eth1"]
+    - endpoints: ["sw-dmz:eth2", "dmz-web-modern:eth1"]
+    - endpoints: ["sw-dmz:eth3", "dmz-web-legacy:eth1"]
+    - endpoints: ["sw-dmz:eth4", "dmz-web-badcert:eth1"]
+    - endpoints: ["sw-dmz:eth5", "dmz-web-heartbleed:eth1"]
+    - endpoints: ["sw-dmz:eth6", "dmz-ldap:eth1"]
+    - endpoints: ["sw-dmz:eth7", "vuln-struts2:eth1"]
+    - endpoints: ["sw-dmz:eth8", "vuln-weblogic:eth1"]
+    - endpoints: ["sw-dmz:eth9", "vuln-thinkphp:eth1"]
+    - endpoints: ["corp-rtr:eth2", "sw-finance:eth10"]
+    - endpoints: ["sw-finance:eth11", "fin-app:eth1"]
+    - endpoints: ["sw-finance:eth12", "fin-db:eth1"]
+    - endpoints: ["sw-finance:eth13", "vuln-spring:eth1"]
+    - endpoints: ["sw-finance:eth14", "vuln-redis:eth1"]
+    - endpoints: ["sw-finance:eth15", "vuln-jenkins:eth1"]
+    - endpoints: ["corp-rtr:eth3", "sw-engineering:eth100"]
+    - endpoints: ["sw-engineering:eth101", "eng-git:eth1"]
+    - endpoints: ["sw-engineering:eth102", "eng-fileserver:eth1"]
+    - endpoints: ["sw-engineering:eth103", "scanner:eth1"]
+    - endpoints: ["sw-engineering:eth104", "vuln-phpmyadmin:eth1"]
+    - endpoints: ["sw-engineering:eth105", "vuln-elasticsearch:eth1"]

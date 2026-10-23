@@ -1,0 +1,8 @@
+FROM wazuh/wazuh-indexer:4.7.2
+
+USER root
+COPY indexer-entrypoint.sh /usr/local/bin/tijeri-wazuh-indexer-entrypoint
+RUN chmod 755 /usr/local/bin/tijeri-wazuh-indexer-entrypoint
+
+ENTRYPOINT ["/usr/local/bin/tijeri-wazuh-indexer-entrypoint"]
+CMD ["opensearchwrapper"]

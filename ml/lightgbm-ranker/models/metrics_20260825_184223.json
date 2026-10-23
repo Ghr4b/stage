@@ -1,0 +1,24 @@
+{
+  "accuracy": 0.9996431316569672,
+  "recall": 0.9972640218878249,
+  "fpr": 0.00033275563258232236,
+  "precision": 0.9681274900398407,
+  "tp": 729,
+  "fp": 24,
+  "fn": 2,
+  "tn": 72101,
+  "scale_pos_weight": 96.66119302949062,
+  "num_boost_round": 500,
+  "feature_importances": {
+    "kev_listed": 590,
+    "exposure_public": 0,
+    "automatable": 697,
+    "technical_impact_total": 265,
+    "cvss_score": 2860,
+    "cvss_present": 448,
+    "epss_score": 5581,
+    "nvd_enrichment_status": 108,
+    "asset_criticality": 3355,
+    "reachable": 0
+  }
+}

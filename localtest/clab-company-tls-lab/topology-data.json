@@ -1,0 +1,1243 @@
+{
+  "name": "company-tls-lab",
+  "type": "clab",
+  "clab": {
+    "config": {
+      "prefix": "clab",
+      "mgmt": {
+        "network": "clab",
+        "bridge": "br-1ab2ebb0dce9",
+        "ipv4-subnet": "172.30.20.0/24",
+        "ipv4-gw": "172.30.20.1",
+        "ipv6-subnet": "3fff:172:30:20::/64",
+        "ipv6-gw": "3fff:172:30:20::1",
+        "external-access": true
+      }
+    }
+  },
+  "ssh-pub-keys": [],
+  "nodes": {
+    "core-rtr": {
+      "index": "0",
+      "shortname": "core-rtr",
+      "longname": "clab-company-tls-lab-core-rtr",
+      "fqdn": "core-rtr.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/core-rtr",
+      "kind": "linux",
+      "image": "frrouting/frr:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.9",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::9",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/core-rtr",
+        "clab-node-longname": "clab-company-tls-lab-core-rtr",
+        "clab-node-name": "core-rtr",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+      ]
+    },
+    "corp-rtr": {
+      "index": "1",
+      "shortname": "corp-rtr",
+      "longname": "clab-company-tls-lab-corp-rtr",
+      "fqdn": "corp-rtr.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/corp-rtr",
+      "kind": "linux",
+      "image": "frrouting/frr:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.6",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::6",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/corp-rtr",
+        "clab-node-longname": "clab-company-tls-lab-corp-rtr",
+        "clab-node-name": "corp-rtr",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+      ]
+    },
+    "dmz-ldap": {
+      "index": "2",
+      "shortname": "dmz-ldap",
+      "longname": "clab-company-tls-lab-dmz-ldap",
+      "fqdn": "dmz-ldap.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/dmz-ldap",
+      "kind": "linux",
+      "image": "osixia/openldap:1.5.0",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.13",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::d",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/dmz-ldap",
+        "clab-node-longname": "clab-company-tls-lab-dmz-ldap",
+        "clab-node-name": "dmz-ldap",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 389,
+          "protocol": "tcp"
+        },
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 636,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "dmz-rtr": {
+      "index": "3",
+      "shortname": "dmz-rtr",
+      "longname": "clab-company-tls-lab-dmz-rtr",
+      "fqdn": "dmz-rtr.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/dmz-rtr",
+      "kind": "linux",
+      "image": "frrouting/frr:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.19",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::13",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/dmz-rtr",
+        "clab-node-longname": "clab-company-tls-lab-dmz-rtr",
+        "clab-node-name": "dmz-rtr",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+      ]
+    },
+    "dmz-web-badcert": {
+      "index": "4",
+      "shortname": "dmz-web-badcert",
+      "longname": "clab-company-tls-lab-dmz-web-badcert",
+      "fqdn": "dmz-web-badcert.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/dmz-web-badcert",
+      "kind": "linux",
+      "image": "nginx:alpine",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.22",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::16",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/dmz-web-badcert",
+        "clab-node-longname": "clab-company-tls-lab-dmz-web-badcert",
+        "clab-node-name": "dmz-web-badcert",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 80,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "dmz-web-heartbleed": {
+      "index": "5",
+      "shortname": "dmz-web-heartbleed",
+      "longname": "clab-company-tls-lab-dmz-web-heartbleed",
+      "fqdn": "dmz-web-heartbleed.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/dmz-web-heartbleed",
+      "kind": "linux",
+      "image": "vulnerables/cve-2014-0160:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.7",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::7",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/dmz-web-heartbleed",
+        "clab-node-longname": "clab-company-tls-lab-dmz-web-heartbleed",
+        "clab-node-name": "dmz-web-heartbleed",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 443,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "dmz-web-legacy": {
+      "index": "6",
+      "shortname": "dmz-web-legacy",
+      "longname": "clab-company-tls-lab-dmz-web-legacy",
+      "fqdn": "dmz-web-legacy.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/dmz-web-legacy",
+      "kind": "linux",
+      "image": "tls-lab/dmz-web-legacy:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.21",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::15",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/dmz-web-legacy",
+        "clab-node-longname": "clab-company-tls-lab-dmz-web-legacy",
+        "clab-node-name": "dmz-web-legacy",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 443,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "dmz-web-modern": {
+      "index": "7",
+      "shortname": "dmz-web-modern",
+      "longname": "clab-company-tls-lab-dmz-web-modern",
+      "fqdn": "dmz-web-modern.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/dmz-web-modern",
+      "kind": "linux",
+      "image": "nginx:alpine",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.18",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::12",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/dmz-web-modern",
+        "clab-node-longname": "clab-company-tls-lab-dmz-web-modern",
+        "clab-node-name": "dmz-web-modern",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 80,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "eng-fileserver": {
+      "index": "8",
+      "shortname": "eng-fileserver",
+      "longname": "clab-company-tls-lab-eng-fileserver",
+      "fqdn": "eng-fileserver.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/eng-fileserver",
+      "kind": "linux",
+      "image": "alpine:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.17",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::11",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/eng-fileserver",
+        "clab-node-longname": "clab-company-tls-lab-eng-fileserver",
+        "clab-node-name": "eng-fileserver",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+      ]
+    },
+    "eng-git": {
+      "index": "9",
+      "shortname": "eng-git",
+      "longname": "clab-company-tls-lab-eng-git",
+      "fqdn": "eng-git.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/eng-git",
+      "kind": "linux",
+      "image": "nginx:alpine",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.14",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::e",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/eng-git",
+        "clab-node-longname": "clab-company-tls-lab-eng-git",
+        "clab-node-name": "eng-git",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 80,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "fin-app": {
+      "index": "10",
+      "shortname": "fin-app",
+      "longname": "clab-company-tls-lab-fin-app",
+      "fqdn": "fin-app.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/fin-app",
+      "kind": "linux",
+      "image": "nginx:alpine",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.3",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::3",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/fin-app",
+        "clab-node-longname": "clab-company-tls-lab-fin-app",
+        "clab-node-name": "fin-app",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 80,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "fin-db": {
+      "index": "11",
+      "shortname": "fin-db",
+      "longname": "clab-company-tls-lab-fin-db",
+      "fqdn": "fin-db.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/fin-db",
+      "kind": "linux",
+      "image": "alpine:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.15",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::f",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/fin-db",
+        "clab-node-longname": "clab-company-tls-lab-fin-db",
+        "clab-node-name": "fin-db",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+      ]
+    },
+    "scanner": {
+      "index": "12",
+      "shortname": "scanner",
+      "longname": "clab-company-tls-lab-scanner",
+      "fqdn": "scanner.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/scanner",
+      "kind": "linux",
+      "image": "tls-lab/scanner:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.12",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::c",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/scanner",
+        "clab-node-longname": "clab-company-tls-lab-scanner",
+        "clab-node-name": "scanner",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+      ]
+    },
+    "sw-dmz": {
+      "index": "13",
+      "shortname": "sw-dmz",
+      "longname": "clab-company-tls-lab-sw-dmz",
+      "fqdn": "sw-dmz.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/sw-dmz",
+      "kind": "bridge",
+      "image": "",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "",
+      "mgmt-ipv4-prefix-length": 0,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "bridge",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/sw-dmz",
+        "clab-node-longname": "clab-company-tls-lab-sw-dmz",
+        "clab-node-name": "sw-dmz",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+      ]
+    },
+    "sw-engineering": {
+      "index": "14",
+      "shortname": "sw-engineering",
+      "longname": "clab-company-tls-lab-sw-engineering",
+      "fqdn": "sw-engineering.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/sw-engineering",
+      "kind": "bridge",
+      "image": "",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "",
+      "mgmt-ipv4-prefix-length": 0,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "bridge",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/sw-engineering",
+        "clab-node-longname": "clab-company-tls-lab-sw-engineering",
+        "clab-node-name": "sw-engineering",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+      ]
+    },
+    "sw-finance": {
+      "index": "15",
+      "shortname": "sw-finance",
+      "longname": "clab-company-tls-lab-sw-finance",
+      "fqdn": "sw-finance.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/sw-finance",
+      "kind": "bridge",
+      "image": "",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "",
+      "mgmt-ipv4-prefix-length": 0,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "bridge",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/sw-finance",
+        "clab-node-longname": "clab-company-tls-lab-sw-finance",
+        "clab-node-name": "sw-finance",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+      ]
+    },
+    "vuln-elasticsearch": {
+      "index": "16",
+      "shortname": "vuln-elasticsearch",
+      "longname": "clab-company-tls-lab-vuln-elasticsearch",
+      "fqdn": "vuln-elasticsearch.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-elasticsearch",
+      "kind": "linux",
+      "image": "vulhub/elasticsearch:1.4.2",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.11",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::b",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-elasticsearch",
+        "clab-node-longname": "clab-company-tls-lab-vuln-elasticsearch",
+        "clab-node-name": "vuln-elasticsearch",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 9200,
+          "protocol": "tcp"
+        },
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 9300,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "vuln-jenkins": {
+      "index": "17",
+      "shortname": "vuln-jenkins",
+      "longname": "clab-company-tls-lab-vuln-jenkins",
+      "fqdn": "vuln-jenkins.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-jenkins",
+      "kind": "linux",
+      "image": "vulhub/jenkins:2.46.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.10",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::a",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-jenkins",
+        "clab-node-longname": "clab-company-tls-lab-vuln-jenkins",
+        "clab-node-name": "vuln-jenkins",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 8080,
+          "protocol": "tcp"
+        },
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 50000,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "vuln-phpmyadmin": {
+      "index": "18",
+      "shortname": "vuln-phpmyadmin",
+      "longname": "clab-company-tls-lab-vuln-phpmyadmin",
+      "fqdn": "vuln-phpmyadmin.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-phpmyadmin",
+      "kind": "linux",
+      "image": "tls-lab/vuln-phpmyadmin:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.16",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::10",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-phpmyadmin",
+        "clab-node-longname": "clab-company-tls-lab-vuln-phpmyadmin",
+        "clab-node-name": "vuln-phpmyadmin",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 80,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "vuln-redis": {
+      "index": "19",
+      "shortname": "vuln-redis",
+      "longname": "clab-company-tls-lab-vuln-redis",
+      "fqdn": "vuln-redis.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-redis",
+      "kind": "linux",
+      "image": "tls-lab/vuln-redis:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.8",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::8",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-redis",
+        "clab-node-longname": "clab-company-tls-lab-vuln-redis",
+        "clab-node-name": "vuln-redis",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+      ]
+    },
+    "vuln-spring": {
+      "index": "20",
+      "shortname": "vuln-spring",
+      "longname": "clab-company-tls-lab-vuln-spring",
+      "fqdn": "vuln-spring.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-spring",
+      "kind": "linux",
+      "image": "tls-lab/vuln-spring:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.2",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::2",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-spring",
+        "clab-node-longname": "clab-company-tls-lab-vuln-spring",
+        "clab-node-name": "vuln-spring",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 8080,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "vuln-struts2": {
+      "index": "21",
+      "shortname": "vuln-struts2",
+      "longname": "clab-company-tls-lab-vuln-struts2",
+      "fqdn": "vuln-struts2.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-struts2",
+      "kind": "linux",
+      "image": "vulhub/struts2:2.3.30",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.4",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::4",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-struts2",
+        "clab-node-longname": "clab-company-tls-lab-vuln-struts2",
+        "clab-node-name": "vuln-struts2",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 8080,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "vuln-thinkphp": {
+      "index": "22",
+      "shortname": "vuln-thinkphp",
+      "longname": "clab-company-tls-lab-vuln-thinkphp",
+      "fqdn": "vuln-thinkphp.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-thinkphp",
+      "kind": "linux",
+      "image": "tls-lab/vuln-thinkphp:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.20",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::14",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-thinkphp",
+        "clab-node-longname": "clab-company-tls-lab-vuln-thinkphp",
+        "clab-node-name": "vuln-thinkphp",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 80,
+          "protocol": "tcp"
+        }
+      ]
+    },
+    "vuln-weblogic": {
+      "index": "23",
+      "shortname": "vuln-weblogic",
+      "longname": "clab-company-tls-lab-vuln-weblogic",
+      "fqdn": "vuln-weblogic.company-tls-lab.io",
+      "group": "",
+      "labdir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-weblogic",
+      "kind": "linux",
+      "image": "vulhub/weblogic:10.3.6.0-2017",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.30.20.5",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:30:20::5",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-1ab2ebb0dce9",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/lhadi/Projects/ssl-tls-project/localtest/clab-company-tls-lab/vuln-weblogic",
+        "clab-node-longname": "clab-company-tls-lab-vuln-weblogic",
+        "clab-node-name": "vuln-weblogic",
+        "clab-node-type": "",
+        "clab-owner": "lhadi",
+        "clab-topo-file": "/home/lhadi/Projects/ssl-tls-project/localtest/topology.clab.yml",
+        "containerlab": "company-tls-lab"
+      },
+      "port-bindings": [
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 5556,
+          "protocol": "tcp"
+        },
+        {
+          "host-ip": "",
+          "host-port": 0,
+          "port": 7001,
+          "protocol": "tcp"
+        }
+      ]
+    }
+  },
+  "links": [
+    {
+      "endpoints": {
+        "a": {
+          "node": "core-rtr",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:1d:c0:3a",
+          "peer": "z"
+        },
+        "z": {
+          "node": "dmz-rtr",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:04:f7:00",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "core-rtr",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:de:d6:af",
+          "peer": "z"
+        },
+        "z": {
+          "node": "corp-rtr",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:c3:92:44",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "dmz-rtr",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:32:18:44",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-dmz",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:f0:af:74",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-dmz",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:c5:b4:b8",
+          "peer": "z"
+        },
+        "z": {
+          "node": "dmz-web-modern",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:f5:63:82",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-dmz",
+          "interface": "eth3",
+          "mac": "aa:c1:ab:08:4f:18",
+          "peer": "z"
+        },
+        "z": {
+          "node": "dmz-web-legacy",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:e2:87:b9",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-dmz",
+          "interface": "eth4",
+          "mac": "aa:c1:ab:e2:57:7d",
+          "peer": "z"
+        },
+        "z": {
+          "node": "dmz-web-badcert",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:27:5a:06",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-dmz",
+          "interface": "eth5",
+          "mac": "aa:c1:ab:99:04:53",
+          "peer": "z"
+        },
+        "z": {
+          "node": "dmz-web-heartbleed",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:bb:98:c5",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-dmz",
+          "interface": "eth6",
+          "mac": "aa:c1:ab:c6:81:18",
+          "peer": "z"
+        },
+        "z": {
+          "node": "dmz-ldap",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:24:1f:76",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-dmz",
+          "interface": "eth7",
+          "mac": "aa:c1:ab:d2:cc:27",
+          "peer": "z"
+        },
+        "z": {
+          "node": "vuln-struts2",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:c3:4e:e7",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-dmz",
+          "interface": "eth8",
+          "mac": "aa:c1:ab:45:b6:f3",
+          "peer": "z"
+        },
+        "z": {
+          "node": "vuln-weblogic",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:42:82:45",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-dmz",
+          "interface": "eth9",
+          "mac": "aa:c1:ab:18:f1:4d",
+          "peer": "z"
+        },
+        "z": {
+          "node": "vuln-thinkphp",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:27:f9:5b",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "corp-rtr",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:af:01:16",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-finance",
+          "interface": "eth10",
+          "mac": "aa:c1:ab:e6:10:98",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-finance",
+          "interface": "eth11",
+          "mac": "aa:c1:ab:3d:48:6f",
+          "peer": "z"
+        },
+        "z": {
+          "node": "fin-app",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:93:d1:f0",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-finance",
+          "interface": "eth12",
+          "mac": "aa:c1:ab:4e:34:e7",
+          "peer": "z"
+        },
+        "z": {
+          "node": "fin-db",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:88:ab:ec",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-finance",
+          "interface": "eth13",
+          "mac": "aa:c1:ab:c4:9d:0c",
+          "peer": "z"
+        },
+        "z": {
+          "node": "vuln-spring",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:66:3e:75",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-finance",
+          "interface": "eth14",
+          "mac": "aa:c1:ab:9d:cb:10",
+          "peer": "z"
+        },
+        "z": {
+          "node": "vuln-redis",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:e2:ef:a0",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-finance",
+          "interface": "eth15",
+          "mac": "aa:c1:ab:99:8d:84",
+          "peer": "z"
+        },
+        "z": {
+          "node": "vuln-jenkins",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:90:34:05",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "corp-rtr",
+          "interface": "eth3",
+          "mac": "aa:c1:ab:dc:47:e6",
+          "peer": "z"
+        },
+        "z": {
+          "node": "sw-engineering",
+          "interface": "eth100",
+          "mac": "aa:c1:ab:33:3d:07",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-engineering",
+          "interface": "eth101",
+          "mac": "aa:c1:ab:55:a7:4c",
+          "peer": "z"
+        },
+        "z": {
+          "node": "eng-git",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:5e:4d:ae",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-engineering",
+          "interface": "eth102",
+          "mac": "aa:c1:ab:d0:ef:c9",
+          "peer": "z"
+        },
+        "z": {
+          "node": "eng-fileserver",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:9b:aa:82",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-engineering",
+          "interface": "eth103",
+          "mac": "aa:c1:ab:1e:40:57",
+          "peer": "z"
+        },
+        "z": {
+          "node": "scanner",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:ef:3c:c5",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-engineering",
+          "interface": "eth104",
+          "mac": "aa:c1:ab:90:83:ff",
+          "peer": "z"
+        },
+        "z": {
+          "node": "vuln-phpmyadmin",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:80:40:75",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "sw-engineering",
+          "interface": "eth105",
+          "mac": "aa:c1:ab:57:38:70",
+          "peer": "z"
+        },
+        "z": {
+          "node": "vuln-elasticsearch",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:64:d1:6a",
+          "peer": "a"
+        }
+      }
+    }
+  ]
+}

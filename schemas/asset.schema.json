@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "asset_id": { "type": "string" },
+    "canonical_name": { "type": "string" },
+    "criticality_tier": { "type": "string", "enum": ["mission_critical", "high_value", "standard", "low_value"] },
+    "exposure": { "type": "string", "enum": ["public", "internal", "restricted"] },
+    "state": { "type": "string", "enum": ["active", "stale", "archived"] },
+    "first_seen": { "type": "string", "format": "date-time" },
+    "last_seen": { "type": "string", "format": "date-time" }
+  },
+  "required": ["asset_id", "canonical_name", "criticality_tier", "exposure", "state"]
+}

@@ -1,0 +1,300 @@
+services:
+  # ---------------------------------------------
+  # CORE SERVICES (Postgres, NATS)
+  # ---------------------------------------------
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: tijeri
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in deploy/compose/.env}
+      POSTGRES_DB: tijeri
+      TIJERI_DATABASE_PASSWORD: ${TIJERI_DATABASE_PASSWORD:?Set TIJERI_DATABASE_PASSWORD in deploy/compose/.env}
+      DD_DATABASE_PASSWORD: ${DD_DATABASE_PASSWORD:?Set DD_DATABASE_PASSWORD in deploy/compose/.env}
+      DTRACK_DATABASE_PASSWORD: ${DTRACK_DATABASE_PASSWORD:?Set DTRACK_DATABASE_PASSWORD in deploy/compose/.env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-databases.sql:/docker-entrypoint-initdb.d/0000-init-databases.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tijeri -d tijeri"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    mem_limit: 512m
+
+  nats:
+    image: nats:2.10-alpine
+    command: ["-js", "-sd", "/data", "-m", "8222", "--user", "${NATS_USER:?Set NATS_USER in deploy/compose/.env}", "--pass", "${NATS_PASSWORD:?Set NATS_PASSWORD in deploy/compose/.env}"]
+    volumes:
+      - natsdata:/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8222/healthz"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    mem_limit: 256m
+
+  # ---------------------------------------------
+  # DEFECTDOJO (Vulnerability Aggregation & GUI)
+  # ---------------------------------------------
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    mem_limit: 128m
+
+  defectdojo-uwsgi:
+    image: defectdojo/defectdojo-django:${DEFECTDOJO_VERSION:?Set a pinned DEFECTDOJO_VERSION in deploy/compose/.env}
+    environment:
+      DD_ALLOWED_HOSTS: ${DD_ALLOWED_HOSTS:-localhost,127.0.0.1,defectdojo-nginx,tijeri-orchestrator}
+      DD_DATABASE_URL: postgresql://defectdojo:${DD_DATABASE_PASSWORD:?Set DD_DATABASE_PASSWORD in deploy/compose/.env}@postgres:5432/defectdojo
+      DD_CELERY_BROKER_URL: redis://redis:6379/1
+      DD_SECRET_KEY: ${DD_SECRET_KEY:?Set DD_SECRET_KEY in deploy/compose/.env}
+      DD_CREDENTIAL_AES_256_KEY: ${DD_AES_KEY:?Set DD_AES_KEY in deploy/compose/.env}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    mem_limit: 1g
+
+  defectdojo-nginx:
+    image: defectdojo/defectdojo-nginx:${DEFECTDOJO_VERSION:?Set a pinned DEFECTDOJO_VERSION in deploy/compose/.env}
+    environment:
+      DD_UWSGI_HOST: defectdojo-uwsgi
+      DD_UWSGI_PORT: 3031
+    ports:
+      - "127.0.0.1:8081:8080"
+    depends_on:
+      - defectdojo-uwsgi
+    restart: unless-stopped
+    mem_limit: 256m
+
+  defectdojo-celerybeat:
+    image: defectdojo/defectdojo-django:${DEFECTDOJO_VERSION:?Set a pinned DEFECTDOJO_VERSION in deploy/compose/.env}
+    entrypoint: ['/wait-for-it.sh', 'postgres:5432', '-t', '30', '--', '/entrypoint-celery-beat.sh']
+    environment:
+      DD_DATABASE_URL: postgresql://defectdojo:${DD_DATABASE_PASSWORD:?Set DD_DATABASE_PASSWORD in deploy/compose/.env}@postgres:5432/defectdojo
+      DD_CELERY_BROKER_URL: redis://redis:6379/1
+      DD_SECRET_KEY: ${DD_SECRET_KEY:?Set DD_SECRET_KEY in deploy/compose/.env}
+      DD_CREDENTIAL_AES_256_KEY: ${DD_AES_KEY:?Set DD_AES_KEY in deploy/compose/.env}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    mem_limit: 512m
+
+  defectdojo-celeryworker:
+    image: defectdojo/defectdojo-django:${DEFECTDOJO_VERSION:?Set a pinned DEFECTDOJO_VERSION in deploy/compose/.env}
+    entrypoint: ['/wait-for-it.sh', 'postgres:5432', '-t', '30', '--', '/entrypoint-celery-worker.sh']
+    environment:
+      DD_DATABASE_URL: postgresql://defectdojo:${DD_DATABASE_PASSWORD:?Set DD_DATABASE_PASSWORD in deploy/compose/.env}@postgres:5432/defectdojo
+      DD_CELERY_BROKER_URL: redis://redis:6379/1
+      DD_SECRET_KEY: ${DD_SECRET_KEY:?Set DD_SECRET_KEY in deploy/compose/.env}
+      DD_CREDENTIAL_AES_256_KEY: ${DD_AES_KEY:?Set DD_AES_KEY in deploy/compose/.env}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    mem_limit: 1g
+
+  defectdojo-initializer:
+    image: defectdojo/defectdojo-django:${DEFECTDOJO_VERSION:?Set a pinned DEFECTDOJO_VERSION in deploy/compose/.env}
+    entrypoint: ['/wait-for-it.sh', 'postgres:5432', '--', '/entrypoint-initializer.sh']
+    environment:
+      DD_DATABASE_URL: postgresql://defectdojo:${DD_DATABASE_PASSWORD:?Set DD_DATABASE_PASSWORD in deploy/compose/.env}@postgres:5432/defectdojo
+      DD_ADMIN_USER: "admin"
+      DD_ADMIN_PASSWORD: ${DD_ADMIN_PASSWORD:?Set DD_ADMIN_PASSWORD in deploy/compose/.env}
+      DD_SECRET_KEY: ${DD_SECRET_KEY:?Set DD_SECRET_KEY in deploy/compose/.env}
+      DD_CREDENTIAL_AES_256_KEY: ${DD_AES_KEY:?Set DD_AES_KEY in deploy/compose/.env}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  # ---------------------------------------------
+  # WAZUH (SIEM Correlation & FIM)
+  # ---------------------------------------------
+  wazuh-indexer:
+    image: tijeri/wazuh-indexer:4.7.2-tijeri.1
+    build:
+      context: ../wazuh
+      dockerfile: Dockerfile.indexer
+    user: "0:0"
+    environment:
+      - discovery.type=single-node
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - TIJERI_WAZUH_INDEXER_PASSWORD_FILE=/run/secrets/wazuh_indexer_password
+    secrets:
+      - wazuh_indexer_password
+    volumes:
+      - wazuh-indexer-data:/var/lib/wazuh-indexer
+    healthcheck:
+      test: ["CMD", "test", "-f", "/var/lib/wazuh-indexer/.tijeri-security-ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+      start_period: 60s
+    restart: unless-stopped
+    mem_limit: 1g
+
+  wazuh-manager:
+    image: tijeri/wazuh-manager:4.7.2-tijeri.1
+    build:
+      context: ../wazuh
+      dockerfile: Dockerfile
+    hostname: wazuh-manager
+    ports:
+      - "1514:1514/tcp"
+      - "1514:1514/udp"
+      - "1515:1515/tcp"
+    environment:
+      - INDEXER_URL=https://wazuh-indexer:9200
+      - INDEXER_USERNAME=admin
+      - TIJERI_WAZUH_INDEXER_PASSWORD_FILE=/run/secrets/wazuh_indexer_password
+      - TIJERI_API_TOKEN=${TIJERI_API_TOKEN:?Set TIJERI_API_TOKEN in deploy/compose/.env}
+      - TIJERI_WAZUH_WEBHOOK_URL=${TIJERI_WAZUH_WEBHOOK_URL:?Set TIJERI_WAZUH_WEBHOOK_URL in deploy/compose/.env}
+      - TIJERI_CA_BUNDLE=/run/tijeri/ca.pem
+    volumes:
+      - cdb_data:/var/ossec/etc/lists
+      - ../wazuh/local_rules.xml:/var/ossec/etc/rules/local_rules.xml:ro
+      - ${TIJERI_CA_CERT_FILE:?Set TIJERI_CA_CERT_FILE in deploy/compose/.env}:/run/tijeri/ca.pem:ro
+    secrets:
+      - wazuh_indexer_password
+    depends_on:
+      wazuh-indexer:
+        condition: service_healthy
+    restart: unless-stopped
+    mem_limit: 1g
+
+  # ---------------------------------------------
+  # LAB-ONLY VAULT DEVELOPMENT SERVER (NOT A PRODUCTION SECRETS SERVICE)
+  # ---------------------------------------------
+  vault-dev:
+    image: hashicorp/vault:1.15
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: ${VAULT_DEV_ROOT_TOKEN_ID:-}
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+    ports:
+      - "127.0.0.1:8200:8200"
+    restart: unless-stopped
+    mem_limit: 256m
+    profiles:
+      - lab
+
+  # ---------------------------------------------
+  # OWASP DEPENDENCY-TRACK (Continuous SBOM)
+  # ---------------------------------------------
+  dtrack-apiserver:
+    image: dependencytrack/apiserver:4.10.1
+    environment:
+      - ALPINE_DATABASE_MODE=external
+      - ALPINE_DATABASE_URL=jdbc:postgresql://postgres:5432/dependencytrack
+      - ALPINE_DATABASE_DRIVER=org.postgresql.Driver
+      - ALPINE_DATABASE_USERNAME=dtrack
+      - ALPINE_DATABASE_PASSWORD=${DTRACK_DATABASE_PASSWORD:?Set DTRACK_DATABASE_PASSWORD in deploy/compose/.env}
+    ports:
+      - "127.0.0.1:8082:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:8080/api/v1/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+    mem_limit: 1g
+
+  dtrack-frontend:
+    image: dependencytrack/frontend:4.10.0
+    environment:
+      - API_BASE_URL=http://127.0.0.1:8082
+    ports:
+      - "127.0.0.1:8083:8080"
+    depends_on:
+      - dtrack-apiserver
+    restart: unless-stopped
+    mem_limit: 256m
+
+  # ---------------------------------------------
+  # TIJERI ORCHESTRATOR (The brain)
+  # ---------------------------------------------
+  tijeri-orchestrator:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    env_file: .env.runtime
+    environment:
+      DATABASE_URL: postgres://tijeri_app:${TIJERI_DATABASE_PASSWORD:?Set TIJERI_DATABASE_PASSWORD in deploy/compose/.env}@postgres:5432/tijeri?sslmode=disable
+      NATS_URL: nats://${NATS_USER:?Set NATS_USER in deploy/compose/.env}:${NATS_PASSWORD:?Set NATS_PASSWORD in deploy/compose/.env}@nats:4222
+      DEFECTDOJO_URL: http://defectdojo-nginx:8080
+      DTRACK_URL: http://dtrack-apiserver:8080
+      TIJERI_API_TOKEN: ${TIJERI_API_TOKEN:?Set TIJERI_API_TOKEN in deploy/compose/.env}
+      OIDC_ENABLED: ${OIDC_ENABLED:?Set OIDC_ENABLED=true in deploy/compose/.env}
+      OIDC_ISSUER_URL: ${OIDC_ISSUER_URL:?Set OIDC_ISSUER_URL in deploy/compose/.env}
+      OIDC_CLIENT_ID: ${OIDC_CLIENT_ID:?Set OIDC_CLIENT_ID in deploy/compose/.env}
+      OIDC_CLIENT_SECRET: ${OIDC_CLIENT_SECRET:?Set OIDC_CLIENT_SECRET in deploy/compose/.env}
+      OIDC_REDIRECT_URL: ${OIDC_REDIRECT_URL:?Set OIDC_REDIRECT_URL in deploy/compose/.env}
+      OIDC_SESSION_SECRET: ${OIDC_SESSION_SECRET:?Set OIDC_SESSION_SECRET in deploy/compose/.env}
+      OIDC_GROUPS_CLAIM: ${OIDC_GROUPS_CLAIM:-groups}
+      OIDC_ADMIN_GROUPS: ${OIDC_ADMIN_GROUPS:-}
+      OIDC_OPERATOR_GROUPS: ${OIDC_OPERATOR_GROUPS:-}
+      OIDC_VIEWER_GROUPS: ${OIDC_VIEWER_GROUPS:-}
+      WEBHOOK_AUTH_REQUIRED: "true"
+      TLS_REQUIRED: "true"
+      SCANNER_PREFLIGHT_REQUIRED: "true"
+      TLS_CERT: /run/tijeri/tls/server.crt
+      TLS_KEY: /run/tijeri/tls/server.key
+      DISCOVER_ALLOWLIST: ${DISCOVER_ALLOWLIST:?Set explicitly approved DISCOVER_ALLOWLIST CIDRs in deploy/compose/.env}
+      OBJECT_STORE_DIR: /data/objectstore
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
+      GVM_ADDR: ${GVM_ADDR:-unix:///var/run/gvmd.sock}
+      GVM_USERNAME: ${GVM_USERNAME:-}
+      GVM_PASSWORD: ${GVM_PASSWORD:-}
+      GVM_SOCKET: ${GVM_SOCKET:-}
+      SCAN_MAX_WORKERS: ${SCAN_MAX_WORKERS:-}
+      SCAN_RESERVED_MEMORY_MB: ${SCAN_RESERVED_MEMORY_MB:-512}
+      SCAN_MEMORY_PER_WORKER_MB: ${SCAN_MEMORY_PER_WORKER_MB:-768}
+    ports:
+      - "8080:8080"
+    volumes:
+      - cdb_data:/shared/cdb
+      - objectdata:/data/objectstore
+      - ${TLS_CERT_FILE:?Set absolute TLS_CERT_FILE path in deploy/compose/.env}:/run/tijeri/tls/server.crt:ro
+      - ${TLS_KEY_FILE:?Set absolute TLS_KEY_FILE path in deploy/compose/.env}:/run/tijeri/tls/server.key:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+      defectdojo-nginx:
+        condition: service_started
+    restart: unless-stopped
+    mem_limit: ${TIJERI_MEMORY_LIMIT:-4g}
+    stop_grace_period: 45s
+    profiles:
+      - orc
+
+volumes:
+  pgdata:
+  natsdata:
+  wazuh-indexer-data:
+  cdb_data:
+  objectdata:
+
+secrets:
+  wazuh_indexer_password:
+    file: ${WAZUH_INDEXER_PASSWORD_FILE:?Set WAZUH_INDEXER_PASSWORD_FILE in deploy/compose/.env}

@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "subject": { "type": "string" },
+    "predicate_type": { "type": "string" },
+    "issuer": { "type": "string" },
+    "signature": { "type": "string" }
+  },
+  "required": ["subject", "predicate_type", "issuer", "signature"]
+}

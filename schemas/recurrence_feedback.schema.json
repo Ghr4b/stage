@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Recurrence Feedback Event",
+  "description": "Event emitted when a finding recurs after being marked resolved, used to train the LightGBM intra-tier ranking model.",
+  "type": "object",
+  "properties": {
+    "finding_id": {
+      "type": "string"
+    },
+    "asset_id": {
+      "type": "string"
+    },
+    "vulnerability_id": {
+      "type": "string"
+    },
+    "bod_tier_at_resolution": {
+      "type": "integer"
+    },
+    "epss_at_resolution": {
+      "type": "number"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "recurrence_detected_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "component": {
+      "type": "string"
+    },
+    "component_version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "finding_id",
+    "asset_id",
+    "vulnerability_id",
+    "bod_tier_at_resolution",
+    "resolved_at",
+    "recurrence_detected_at"
+  ]
+}

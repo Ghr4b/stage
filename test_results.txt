@@ -1,0 +1,43 @@
+?   	tijeri/cmd/orchestrator	[no test files]
+?   	tijeri/internal/adapters	[no test files]
+ok  	tijeri/internal/adapters/bundleraudit	(cached)
+ok  	tijeri/internal/adapters/cargoaudit	(cached)
+ok  	tijeri/internal/adapters/gitleaks	(cached)
+ok  	tijeri/internal/adapters/govulncheck	(cached)
+ok  	tijeri/internal/adapters/greenbone	(cached)
+ok  	tijeri/internal/adapters/grype	(cached)
+ok  	tijeri/internal/adapters/npmaudit	(cached)
+ok  	tijeri/internal/adapters/nuclei	(cached)
+ok  	tijeri/internal/adapters/osvscanner	(cached)
+ok  	tijeri/internal/adapters/syft	(cached)
+ok  	tijeri/internal/adapters/trivy	(cached)
+ok  	tijeri/internal/adapters/uvaudit	(cached)
+ok  	tijeri/internal/api	0.013s
+?   	tijeri/internal/assets	[no test files]
+ok  	tijeri/internal/assets/discovery/cloud	(cached)
+ok  	tijeri/internal/assets/discovery/container	(cached)
+ok  	tijeri/internal/assets/discovery/directory	(cached)
+ok  	tijeri/internal/assets/discovery/endpoint/wazuh	0.006s
+ok  	tijeri/internal/assets/discovery/host	(cached)
+ok  	tijeri/internal/assets/discovery/repo	(cached)
+ok  	tijeri/internal/assets/discovery/supplychain	(cached)
+ok  	tijeri/internal/assets/resolver	(cached)
+ok  	tijeri/internal/defectdojo	0.009s
+?   	tijeri/internal/dependencytrack	[no test files]
+ok  	tijeri/internal/graph	(cached)
+?   	tijeri/internal/models	[no test files]
+ok  	tijeri/internal/normalize	(cached)
+ok  	tijeri/internal/orchestrator	(cached)
+ok  	tijeri/internal/remediation	(cached)
+ok  	tijeri/internal/remediation/jira	0.008s
+ok  	tijeri/internal/remediation/servicenow	0.009s
+ok  	tijeri/internal/remediation/zammad	0.008s
+ok  	tijeri/internal/risk	(cached)
+ok  	tijeri/internal/secrets	(cached)
+ok  	tijeri/internal/siem	(cached)
+ok  	tijeri/internal/store	(cached)
+?   	tijeri/internal/vault	[no test files]
+ok  	tijeri/internal/verification	(cached)
+ok  	tijeri/tests/contract	(cached)
+ok  	tijeri/tests/e2e	0.008s
+ok  	tijeri/tests/unit/schemas	(cached)

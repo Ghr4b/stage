@@ -1,0 +1,27 @@
+<group name="tijeri, vrm,">
+  <!-- 
+    Rule 100100: Intercept any network/WAF alert (e.g. Suricata) and check if the destination IP 
+    is in our vulnerable_ips CDB list. If it is, elevate the severity directly. 
+  -->
+  <rule id="100100" level="12">
+    <if_sid>86600, 86601</if_sid> <!-- Base Suricata/WAF alert IDs -->
+    <list field="dstip" lookup="match_key">etc/lists/vulnerable_ips</list>
+    <description>Elevated: Exploit attempt against a KNOWN VULNERABLE and REACHABLE host.</description>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+    <group>vulnerability_exploited,</group>
+  </rule>
+
+  <!-- 
+    Rule 100101: FIM (File Integrity Monitoring) integration.
+    Any sensitive file change on a Tier 1 or Tier 2 asset triggers a webhook to Tijeri
+    for a targeted re-scan. 
+  -->
+  <rule id="100101" level="10">
+    <if_group>syscheck</if_group>
+    <match>/var/www/html|/etc/shadow|/etc/passwd</match>
+    <description>Sensitive file modified. Triggering Tijeri event-driven targeted rescan.</description>
+    <group>fim, rescan_trigger,</group>
+  </rule>
+</group>

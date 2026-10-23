@@ -1,0 +1,12 @@
+.git
+.env
+.env.*
+**/.env
+**/.env.*
+**/*.key
+**/*.pem
+localtest
+coverage.out
+*.log
+fix_*.py
+test_results.txt

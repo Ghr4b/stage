@@ -1,0 +1,59 @@
+all:
+  vars:
+    # The generated inventory is assumed to be used from the clab host.
+    # Hence no http proxy should be used. Therefore we make sure the http
+    # module does not attempt using any global http proxy.
+    ansible_httpapi_use_proxy: false
+  children:
+    bridge:
+      hosts:
+        clab-company-tls-lab-sw-dmz:
+          ansible_host: 
+        clab-company-tls-lab-sw-engineering:
+          ansible_host: 
+        clab-company-tls-lab-sw-finance:
+          ansible_host: 
+    linux:
+      hosts:
+        clab-company-tls-lab-core-rtr:
+          ansible_host: 172.30.20.9
+        clab-company-tls-lab-corp-rtr:
+          ansible_host: 172.30.20.6
+        clab-company-tls-lab-dmz-ldap:
+          ansible_host: 172.30.20.13
+        clab-company-tls-lab-dmz-rtr:
+          ansible_host: 172.30.20.19
+        clab-company-tls-lab-dmz-web-badcert:
+          ansible_host: 172.30.20.22
+        clab-company-tls-lab-dmz-web-heartbleed:
+          ansible_host: 172.30.20.7
+        clab-company-tls-lab-dmz-web-legacy:
+          ansible_host: 172.30.20.21
+        clab-company-tls-lab-dmz-web-modern:
+          ansible_host: 172.30.20.18
+        clab-company-tls-lab-eng-fileserver:
+          ansible_host: 172.30.20.17
+        clab-company-tls-lab-eng-git:
+          ansible_host: 172.30.20.14
+        clab-company-tls-lab-fin-app:
+          ansible_host: 172.30.20.3
+        clab-company-tls-lab-fin-db:
+          ansible_host: 172.30.20.15
+        clab-company-tls-lab-scanner:
+          ansible_host: 172.30.20.12
+        clab-company-tls-lab-vuln-elasticsearch:
+          ansible_host: 172.30.20.11
+        clab-company-tls-lab-vuln-jenkins:
+          ansible_host: 172.30.20.10
+        clab-company-tls-lab-vuln-phpmyadmin:
+          ansible_host: 172.30.20.16
+        clab-company-tls-lab-vuln-redis:
+          ansible_host: 172.30.20.8
+        clab-company-tls-lab-vuln-spring:
+          ansible_host: 172.30.20.2
+        clab-company-tls-lab-vuln-struts2:
+          ansible_host: 172.30.20.4
+        clab-company-tls-lab-vuln-thinkphp:
+          ansible_host: 172.30.20.20
+        clab-company-tls-lab-vuln-weblogic:
+          ansible_host: 172.30.20.5

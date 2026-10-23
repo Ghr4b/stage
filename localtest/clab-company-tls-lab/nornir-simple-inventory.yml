@@ -1,0 +1,121 @@
+---
+sw-dmz:
+    username: 
+    password: 
+    platform: bridge
+    hostname: 
+sw-engineering:
+    username: 
+    password: 
+    platform: bridge
+    hostname: 
+sw-finance:
+    username: 
+    password: 
+    platform: bridge
+    hostname: 
+core-rtr:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.9
+corp-rtr:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.6
+dmz-ldap:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.13
+dmz-rtr:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.19
+dmz-web-badcert:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.22
+dmz-web-heartbleed:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.7
+dmz-web-legacy:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.21
+dmz-web-modern:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.18
+eng-fileserver:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.17
+eng-git:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.14
+fin-app:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.3
+fin-db:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.15
+scanner:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.12
+vuln-elasticsearch:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.11
+vuln-jenkins:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.10
+vuln-phpmyadmin:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.16
+vuln-redis:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.8
+vuln-spring:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.2
+vuln-struts2:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.4
+vuln-thinkphp:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.20
+vuln-weblogic:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.30.20.5
